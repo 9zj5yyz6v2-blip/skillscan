@@ -1,0 +1,552 @@
+{
+  "version": "0.3.0",
+  "updated": "2026-10-26",
+  "note": "Agent Skills / MCP Server 风险规则集种子版。规则故意保持精简：误报率优先于覆盖率。",
+  "weights": {
+    "critical": 40,
+    "high": 18,
+    "medium": 7,
+    "low": 3
+  },
+  "grades": [
+    {
+      "max": 15,
+      "grade": "A",
+      "label": "低风险"
+    },
+    {
+      "max": 40,
+      "grade": "B",
+      "label": "需复核"
+    },
+    {
+      "max": 70,
+      "grade": "C",
+      "label": "高风险"
+    },
+    {
+      "max": 9999,
+      "grade": "D",
+      "label": "不建议安装"
+    }
+  ],
+  "categories": [
+    {
+      "id": "hidden-instructions",
+      "name": "隐藏指令",
+      "desc": "用人类看不见、但模型能读到的方式塞入指令",
+      "why": "这是 skill 生态最独有的风险：代码审查看不出来，因为攻击面在自然语言里。",
+      "rules": [
+        {
+          "id": "HI-01",
+          "severity": "critical",
+          "mode": "regex",
+          "pattern": "[\\u200b\\u200c\\u200d\\u2060\\ufeff\\u00ad]{2,}",
+          "message": "检测到连续零宽字符，常用于夹带人类不可见指令",
+          "advice": "要求作者说明用途，否则视为不可审计",
+          "citation": {
+            "refs": [
+              "CWE-1007",
+              "MITRE ATLAS AML.T0051"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "HI-02",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "<!--[\\s\\S]{20,}?(ignore|instead|do not|不要|改为|忽略)[\\s\\S]{0,80}?-->",
+          "message": "HTML 注释中包含指令性语句",
+          "advice": "注释里不该有祈使句，要求移到正文",
+          "citation": {
+            "refs": [
+              "MITRE ATLAS AML.T0051",
+              "OWASP LLM01"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "HI-03",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(font-size\\s*:\\s*0|color\\s*:\\s*(#fff(fff)?|white)\\s*;|display\\s*:\\s*none)[\\s\\S]{0,120}?(ignore|do not|不要|忽略)",
+          "message": "疑似用 CSS 隐藏指令文本",
+          "advice": "隐藏文本 + 指令词是典型的 prompt 投毒模式",
+          "citation": {
+            "refs": [
+              "MITRE ATLAS AML.T0051",
+              "OWASP LLM01"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "HI-04",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "data:[a-z/]+;base64,[A-Za-z0-9+/=]{200,}",
+          "message": "超长 base64 内联数据，可能是被编码的指令",
+          "advice": "要求作者提供解码后的明文",
+          "citation": {
+            "refs": [
+              "CWE-506",
+              "MITRE ATLAS AML.T0051"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "credential-access",
+      "name": "凭证与敏感文件访问",
+      "desc": "读取密钥、令牌、浏览器凭据等与任务无关的敏感路径",
+      "why": "LiteLLM 投毒事件证明：拿到一次凭证就够横向移动。",
+      "rules": [
+        {
+          "id": "CA-01",
+          "severity": "critical",
+          "mode": "regex",
+          "pattern": "(~|\\.)?[\\/\\\\](\\.ssh[\\/\\\\]|\\.aws[\\/\\\\]credentials|\\.npmrc|\\.pypirc|\\.docker[\\/\\\\]config\\.json)",
+          "message": "访问 SSH/AWS/npm/PyPI/Docker 凭证文件",
+          "advice": "与绝大多数 skill 的功能无关，高风险",
+          "citation": {
+            "refs": [
+              "CWE-522",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "CA-02",
+          "severity": "critical",
+          "mode": "regex",
+          "pattern": "(Cookies|Login Data|keychain|Credentials\\.json|\\.config[\\/\\\\]gcloud)",
+          "message": "访问浏览器 cookie / 系统钥匙串",
+          "advice": "除非是明确的浏览器自动化 skill，否则应拒绝",
+          "citation": {
+            "refs": [
+              "CWE-522",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "CA-03",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(\\.env(\\.[a-z]+)?\\b)",
+          "message": "读取 .env 环境变量文件",
+          "advice": "应改为由宿主注入环境变量，而非直接读文件",
+          "citation": {
+            "refs": [
+              "CWE-522"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "CA-04",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "(id_rsa|id_ed25519|\\.pem\\b|\\.pfx\\b)",
+          "message": "涉及私钥文件",
+          "advice": "确认用途，私钥不应进入 agent 上下文",
+          "citation": {
+            "refs": [
+              "CWE-321"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "exfiltration",
+      "name": "外发通道 / 数据渗出",
+      "desc": "把本地内容发到外部地址，尤其是硬编码的陌生域名",
+      "why": "Symantec 抓到的 Skynet 模式，第一步就是把被劫持端点的结果回传。",
+      "rules": [
+        {
+          "id": "EX-01",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(?-i:\\bcurl\\b[^\\n]{0,120}?(?:\\s-d\\s|\\s-d@|--data(?:-raw|-binary)?\\b|\\s-F\\s|--form\\b|--upload-file))",
+          "message": "用 curl 携带数据体对外发送",
+          "advice": "确认目标域名是否属于该 skill 的正当服务端",
+          "citation": {
+            "refs": [
+              "CWE-201",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "EX-02",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(pastebin\\.com|transfer\\.sh|0x0\\.st|webhook\\.site|requestbin|ngrok\\.io|api\\.telegram\\.org/bot)",
+          "message": "使用一次性接收/隧道类服务",
+          "advice": "这类域名在正常 skill 中几乎不该出现",
+          "citation": {
+            "refs": [
+              "CWE-201"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "EX-03",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "base64[\\s\\S]{0,40}\\|\\s*(curl|wget|nc\\b)",
+          "message": "编码后直接管道外发",
+          "advice": "典型的渗出写法",
+          "citation": {
+            "refs": [
+              "CWE-201"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "EX-04",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "\\b(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}):\\d{2,5}\\b",
+          "message": "硬编码 IP:端口",
+          "advice": "正常 skill 应使用域名",
+          "citation": {
+            "refs": [
+              "CWE-201"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "EX-05",
+          "severity": "low",
+          "pattern": "(\\brequests\\.(?:post|put|patch)\\s*\\()|(\\bfetch\\s*\\([^\\n]{0,100}?method\\s*:\\s*[\\\"'](?:POST|PUT|PATCH))|(\\baxios\\.(?:post|put|patch)\\s*\\()",
+          "message": "存在对外发送数据体的调用（普遍存在，仅记录）",
+          "advice": "结合载荷内容判断；单独存在不构成风险",
+          "citation": {
+            "refs": [
+              "CWE-201"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "EX-06",
+          "severity": "critical",
+          "pattern": "(?:requests\\.(?:post|put|patch)|axios\\.(?:post|put)|fetch)\\s*\\([^\\n]{0,200}?(?:token|password|passwd|secret|credential|api[_-]?key|private[_-]?key|id_rsa|\\.ssh|\\.env|\\.aws|\\.npmrc|session|cookie)|(?:webhook\\.site|requestbin|pipedream\\.net|ngrok\\.io|pastebin\\.com|transfer\\.sh|0x0\\.st|discord\\.com/api/webhooks)",
+          "message": "把凭证/密钥类数据外发，或发往一次性收料服务",
+          "advice": "最需立即处理的一类：确认数据来源与目标方身份",
+          "citation": {
+            "refs": [
+              "CWE-201",
+              "CWE-522",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "destructive-ops",
+      "name": "破坏性操作",
+      "desc": "不可逆的删除、强推、权限放开、系统配置改写",
+      "why": "agent 拿到 shell 之后，一次误操作就够。",
+      "rules": [
+        {
+          "id": "DE-01",
+          "severity": "critical",
+          "mode": "regex",
+          "pattern": "rm\\s+-[a-zA-Z]*[rf][a-zA-Z]*\\s+(\\/|~|\\$HOME|\\*)",
+          "message": "递归强删根目录/家目录/通配",
+          "advice": "直接拒绝，无例外",
+          "citation": {
+            "refs": [
+              "CWE-78",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "DE-02",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(git\\s+push\\s+(-f|--force)|git\\s+reset\\s+--hard|DROP\\s+(TABLE|DATABASE))",
+          "message": "不可逆的版本/数据操作",
+          "advice": "应改为需要人工确认的分支动作",
+          "citation": {
+            "refs": [
+              "CWE-471"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "DE-03",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "chmod\\s+(-R\\s+)?777",
+          "message": "放开全部文件权限",
+          "advice": "应使用最小必要权限",
+          "citation": {
+            "refs": [
+              "CWE-732"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "DE-04",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "(npm\\s+install\\s+-g|pip\\s+install\\s+--break-system-packages)",
+          "message": "全局/破坏性依赖安装",
+          "advice": "优先使用隔离环境",
+          "citation": {
+            "refs": [
+              "CWE-78"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prompt-injection",
+      "name": "指令覆盖与隐瞒",
+      "desc": "试图覆盖宿主系统提示、隐藏行为、绕开用户确认",
+      "why": "这类规则最容易被误报，也最能区分好坏 skill。",
+      "rules": [
+        {
+          "id": "PI-01",
+          "severity": "critical",
+          "mode": "regex",
+          "pattern": "(ignore|disregard|forget)\\s+(all\\s+)?(the\\s+)?(previous|prior|above|earlier)\\s+(instructions|prompts|rules)",
+          "message": "显式要求忽略既有指令",
+          "advice": "skill 不应改写宿主系统提示",
+          "citation": {
+            "refs": [
+              "OWASP LLM01",
+              "MITRE ATLAS AML.T0051"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "PI-02",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(do\\s+not|don't|never)\\s+(tell|inform|mention|reveal|notify)[\\s\\S]{0,30}?(user|human)|(不要|别)(告知|告诉|提醒|让)[\\s\\S]{0,12}?(用户|使用者)",
+          "message": "要求对用户隐瞒行为（需人工判断：恶意隐瞒 / 避免打扰）",
+          "advice": "看隐瞒对象：涉及上传/删除/修改/读取凭证=恶意；涉及内部路径/路由/实现细节=良性",
+          "citation": {
+            "refs": [
+              "OWASP LLM01",
+              "MITRE ATLAS AML.T0054"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "PI-03",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(without\\s+(?:asking|confirm\\w*|approval|permission))|(?:(?:silently|unobtrusively)\\s+(?:skip|ignore|delete|remove|upload|send|modify|change|overwrite|disable|bypass|drop|discard|patch|replace|rewrite))|(无需(?:确认|询问|授权))",
+          "message": "要求跳过用户确认并执行敏感动作",
+          "advice": "确认该动作是否会修改用户数据或对外发送",
+          "citation": {
+            "refs": [
+              "OWASP LLM01",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "PI-04",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "(<\\/?system>|###\\s*system|<\\|im_start\\|>)",
+          "message": "伪造系统级消息标签",
+          "advice": "skill 内容不应伪装成系统消息",
+          "citation": {
+            "refs": [
+              "OWASP LLM01"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "supply-chain",
+      "name": "供应链与依赖",
+      "desc": "远程脚本直跑、不锁版本、从个人仓库拉代码",
+      "why": "LiteLLM 的教训不是模型问题，是包管理问题。",
+      "rules": [
+        {
+          "id": "SC-01",
+          "severity": "critical",
+          "mode": "regex",
+          "pattern": "(curl|wget)[^|\\n]{0,120}\\|\\s*(sudo\\s+)?(ba)?sh",
+          "message": "下载后直接执行远程脚本",
+          "advice": "要求提供校验和与可审计的安装脚本",
+          "citation": {
+            "refs": [
+              "CWE-494",
+              "OWASP LLM03"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "SC-02",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "pip\\s+install\\s+(git\\+https?://|https?://)",
+          "message": "从 URL/git 直接安装 Python 包",
+          "advice": "应走 PyPI 并锁版本",
+          "citation": {
+            "refs": [
+              "CWE-829",
+              "OWASP LLM03"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "SC-03",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "(image|FROM)\\s*:?\\s*[a-z0-9._/-]+:latest",
+          "message": "使用 latest 标签的镜像",
+          "advice": "应锁定 digest",
+          "citation": {
+            "refs": [
+              "CWE-829"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "SC-04",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "\"postinstall\"\\s*:",
+          "message": "包含 postinstall 钩子",
+          "advice": "安装即执行，需逐行审查",
+          "citation": {
+            "refs": [
+              "CWE-829"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "name": "持久化与自我安装",
+      "desc": "改写 agent 配置、注册服务、写入启动项",
+      "why": "这是 Skynet 模式与'自我复制'类攻击的核心机制。",
+      "rules": [
+        {
+          "id": "PS-01",
+          "severity": "critical",
+          "mode": "regex",
+          "pattern": "(CLAUDE\\.md|AGENTS\\.md|settings\\.json|\\.claude[\\/\\\\]|\\.codex[\\/\\\\]|mcp\\.json)",
+          "message": "写入 agent 自身配置或指令文件",
+          "advice": "skill 不应修改宿主的 agent 配置",
+          "citation": {
+            "refs": [
+              "CWE-15",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "PS-02",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "(crontab\\s+-|systemctl\\s+enable|launchctl\\s+load|schtasks\\s+\\/create)",
+          "message": "注册定时任务或开机启动",
+          "advice": "除明确的后台服务类 skill，否则拒绝",
+          "citation": {
+            "refs": [
+              "CWE-15"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "PS-03",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "(>>\\s*~?\\/?\\.(bashrc|zshrc|profile|bash_profile))",
+          "message": "追加 shell 启动脚本",
+          "advice": "会长期影响用户环境",
+          "citation": {
+            "refs": [
+              "CWE-15"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "permission-overreach",
+      "name": "权限膨胀",
+      "desc": "声明能力与实际行为不一致",
+      "why": "MCP 通配 scope 是最常见也最被忽视的问题。",
+      "rules": [
+        {
+          "id": "PO-01",
+          "severity": "high",
+          "mode": "regex",
+          "pattern": "\"(scopes?|permissions?)\"\\s*:\\s*\\[?\\s*\"?\\*",
+          "message": "申请通配权限",
+          "advice": "应逐项列出最小权限",
+          "citation": {
+            "refs": [
+              "CWE-250",
+              "OWASP LLM06"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        },
+        {
+          "id": "PO-02",
+          "severity": "medium",
+          "mode": "regex",
+          "pattern": "(allowed-tools|allowedTools)[\\s\\S]{0,60}(Bash|Write|Edit)",
+          "message": "声明了写/执行类工具权限",
+          "advice": "核对是否与功能匹配",
+          "citation": {
+            "refs": [
+              "CWE-250"
+            ],
+            "source": "CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS"
+          }
+        }
+      ]
+    }
+  ],
+  "citation_policy": "每条规则必须可归因到公开标准（CWE / OWASP LLM Top 10 / MITRE ATLAS）。争议时引用标准而非作者判断——这是把'我的观点'变成'行业定义'的关键。",
+  "changelog": {
+    "0.3.0": "语境感知三件套 + 三条高误报规则收紧。依据：本机 137 个真实 skill 全量实测，11 个 C/D 级逐条人工复核，误报率 100%。改动：否定修饰紧邻检测 / 警告语境检测 / 代码注释降级 / PI-02 critical→high / PI-03 silently 需后接敏感动词 / EX-01 移除泛化 requests.post，拆为 EX-05(low) 与 EX-06(critical)。原则：宁可漏报，不可误报。"
+  }
+}

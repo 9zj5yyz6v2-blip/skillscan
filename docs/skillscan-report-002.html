@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillScan 生态体检报告 · 第 002 期</title>
+<style>
+  :root{ --ink:#1e2330; --sub:#6b7280; --brand:#6366f1; --bg:#f7f7fb; --card:#fff; --line:#e7e7ef;
+         --a:#10b981; --c:#f59e0b; --d:#ef4444; --warn:#f59e0b; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;padding:32px 16px}
+  main{max-width:880px;margin:0 auto}
+  header{margin-bottom:28px}
+  .tag{display:inline-block;background:var(--brand);color:#fff;border-radius:999px;padding:3px 14px;font-size:13px;margin-bottom:12px}
+  h1{font-size:29px;line-height:1.35;margin-bottom:8px}
+  .meta{color:var(--sub);font-size:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;margin-bottom:20px}
+  h2{font-size:20px;margin-bottom:14px}
+  h2 .n{color:var(--brand);margin-right:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:8px 0}
+  .stat{background:var(--bg);border-radius:10px;padding:16px;text-align:center}
+  .stat b{display:block;font-size:26px;font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px;color:var(--sub)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin:10px 0}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:600;font-size:13px}
+  .bar{height:10px;border-radius:5px;display:inline-block;vertical-align:middle}
+  .callout{border-left:4px solid var(--brand);background:#eef0ff;border-radius:0 10px 10px 0;padding:16px 18px;margin:14px 0;font-size:15px}
+  .callout.red{border-left-color:var(--d);background:#fef1f1}
+  .callout.amber{border-left-color:var(--warn);background:#fffbeb}
+  code{background:#eef0f4;border-radius:5px;padding:1px 7px;font-size:13.5px;font-family:ui-monospace,Consolas,monospace}
+  pre{background:#14161f;color:#d7dae0;border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.6;margin:12px 0}
+  .pill{display:inline-block;border-radius:999px;padding:1px 10px;font-size:12.5px;margin-right:6px}
+  .pGreen{background:#dcfce7;color:#166534}.pBlue{background:#dbeafe;color:#1e40af}.pAmber{background:#fef3c7;color:#92400e}.pRed{background:#fee2e2;color:#991b1b}
+  footer{color:var(--sub);font-size:13px;margin-top:26px;border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <span class="tag">SkillScan 生态体检 · 第 002 期</span>
+  <h1>60 个被机器判为"高危"的仓库，逐行人工复核后：0 个恶意软件，4 个真实敏感行为</h1>
+  <div class="meta">2026-10-26 · 复核范围：第 001 期全部 C/D 级仓库 · 每条裁决均附原文依据 · 规则集 v0.3.0</div>
+</header>
+
+<div class="card">
+  <h2><span class="n">01</span>一句话结论</h2>
+  <p>我们把上一期机器评出的全部 C/D 级仓库（54 个唯一仓库，含微软、Chrome DevTools、Playwright 等明星项目）<b>逐条拉出原文人工复核</b>。结果：<b>没有发现任何恶意软件</b>。但这个"好消息"背后藏着本期真正的头条——</p>
+  <div class="callout red">今天这个生态没有坏蛋，<b>但也没有任何机制能拦住明天出现的坏蛋</b>。我们复核的 54 个仓库里，37 个是误报、13 个是"功能即风险"（自我修改、爬虫、凭证管理，全部公开声明）——也就是说，<b>当前唯一区分"良性敏感"和"恶意敏感"的，是作者自己写不写说明</b>。而在我们扫描之前，没有任何一个渠道在做这道检查。</div>
+</div>
+
+<div class="card">
+  <h2><span class="n">02</span>裁决分布</h2>
+  <div class="grid">
+    <div class="stat"><b>54</b><span>复核仓库</span></div>
+    <div class="stat"><b>37</b><span>误报（69%）</span></div>
+    <div class="stat"><b>13</b><span>明示功能（24%）</span></div>
+    <div class="stat"><b style="color:var(--d)">4</b><span>真实发现（7%）</span></div>
+  </div>
+  <table>
+    <tr><th>裁决</th><th>含义</th><th>典型例子</th></tr>
+    <tr><td><span class="pill pBlue">误报</span></td><td>防御性安全文本、API 文档、doctoc 目录注释、测试数据</td><td>charlax 的 <code>doctoc</code> 注释被当成"HTML 隐藏指令"；phaser 文档的 "auto-destroys" 被当成破坏性操作</td></tr>
+    <tr><td><span class="pill pAmber">明示功能</span></td><td>产品功能本身就是敏感操作，且公开声明</td><td>microsoft/SkillOpt 的"夜间自我进化"；多款 self-improving 工具自动改写 CLAUDE.md</td></tr>
+    <tr><td><span class="pill pRed">真实发现</span></td><td>行为属实且值得用户知情</td><td>见下一节，共 4 个</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2><span class="n">03</span>4 个真实发现（全部披露原文与依据）</h2>
+  <table>
+    <tr><th>仓库</th><th>发现</th><th>风险</th><th>依据</th></tr>
+    <tr>
+      <td class="mono">eatmoreduck/<br>boss-zhipin-scraper<br><span class="pill pRed">中危</span></td>
+      <td>读取主浏览器的 <b>Chrome Cookie 数据库</b>（Cookies / Cookies-wal / Cookies-shm），并把<b>登录态复制</b>到隔离 profile 用于爬取</td>
+      <td>你的 Boss直聘登录凭证被脚本接管；一旦 profile 泄露等于交出账号</td>
+      <td><code>scripts/boss_cdp_raw.py:2523</code>——代码明示且文档披露，行为正当但高度敏感</td>
+    </tr>
+    <tr>
+      <td class="mono">hesamsheikh/<br>octogent<br><span class="pill pRed">中危</span></td>
+      <td>读取 <b>Claude Code 的凭证文件</b> <code>~/.claude/.credentials.json</code></td>
+      <td>这是你所有 Claude 会话的身份凭证；用途是用量统计，但凭证文件访问必须知情</td>
+      <td><code>apps/api/src/claudeUsage.ts:10</code></td>
+    </tr>
+    <tr>
+      <td class="mono">Kulaxyz/<br>self-learning-skills<br><span class="pill pAmber">低危</span></td>
+      <td>指示 AI <b>"harvest it without asking first"</b>——未经用户确认就自动把工作流固化为新技能</td>
+      <td>用途良性，但"不经确认就改环境"应作为知情项</td>
+      <td><code>skills/self-learning/SKILL.md:14</code></td>
+    </tr>
+    <tr>
+      <td class="mono">hkcanan/katmer-code<br><span class="pill pAmber">低危</span></td>
+      <td>内置 <code>curl -fsSL … | bash</code> 安装命令</td>
+      <td>指向 antigravity.google 官方域名且用户主动触发——低危，但管道执行模式本身值得标注</td>
+      <td><code>src/providers/antigravity.ts:98</code></td>
+    </tr>
+  </table>
+  <div class="callout amber">注意：这 4 个<b>都不是恶意软件</b>。它们是"真实但敏感"的行为——每一个都应该是安装前弹出的那个权限弹窗，而这个弹窗今天不存在。</div>
+</div>
+
+<div class="card">
+  <h2><span class="n">04</span>"明示功能"类是本期最重要的洞察</h2>
+  <p>13 个仓库的敏感行为是<b>产品本身</b>：自我进化（SkillOpt、self-improving-for-codex、helpline、claude-reflect）、爬虫（MediaCrawler）、聊天记录导入、凭证管理（skill-publish）。它们都没隐瞒——<b>但对"隐瞒"的判断，今天完全依赖作者自觉</b>。</p>
+  <p>把三个事实放在一起：</p>
+  <table>
+    <tr><th></th><th>今天</th><th>如果有准入台账</th></tr>
+    <tr><td>恶意 skill 出现那天</td><td>没有人会第一时间知道</td><td>24 小时内出榜并通知已安装用户</td></tr>
+    <tr><td>敏感但良性的 skill</td><td>用户毫不知情地安装</td><td>安装前看到"它会读你的 Cookie 库"并签字</td></tr>
+    <tr><td>作者想自证清白</td><td>无处可证</td><td>送检 → 出报告 → 挂徽章</td></tr>
+  </table>
+  <p>这就是我们在做的事。</p>
+</div>
+
+<div class="card">
+  <h2><span class="n">05</span>方法论（全部公开）</h2>
+  <pre>复核范围    第 001 期全部 C/D 级仓库，54 个唯一仓库（61 条抓取，去重）
+复核方法    对每条 critical/high 命中，通过 GitHub API 拉取命中行 ±4 行原文，
+            逐条判断：防御性文本 / 文档语义 / 明示功能 / 真实行为
+裁决标准    误报 = 文本语义与风险无关；明示功能 = 行为真实且公开声明；
+            真实发现 = 行为属实且用户应知情
+原始材料    data/review_contexts.json（61 条含原文摘录）
+裁决记录    data/verdicts.json（54 条，每条含依据）
+已知局限    ① 仅复核机器标出的命中，未通读全部 6,262 个文件
+            ② 未运行动态分析，网络行为不可见
+            ③ A/B 级仓库本期未复核</pre>
+</div>
+
+<div class="card">
+  <h2><span class="n">06</span>下一期预告</h2>
+  <p><b>第 003 期：</b>「知情项目录」首发——把本期 13 个"明示功能"和 4 个"真实发现"整理成一份给普通用户的《安装 AI 技能前你应该知道的 17 件事》，同时开放 skill 作者自荐送检通道。</p>
+</div>
+
+<footer>
+  SkillScan · Agent Skills / MCP 供应链风险 · 方法、规则集与裁决记录全部公开 · 报告编号 SS-ECO-002<br>
+  上一期：<code>SS-ECO-001</code>（332 仓库分布与误报研究）
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,349 @@
+{
+ "reviewer": "SkillScan 人工复核（第 002 期，进行中）",
+ "policy": "每条裁决必须有原文依据；四类裁决：误报 / 明示功能 / 真实低危 / 真实高危",
+ "verdicts": [
+  {
+   "repo": "microsoft/SkillOpt",
+   "verdict": "明示功能",
+   "detail": "自我安装即产品本身（夜间离线进化，描述透明），marketplace.json 命中为产品功能描述而非隐瞒行为",
+   "by": "r1"
+  },
+  {
+   "repo": "SnailSploit/Claude-Red",
+   "verdict": "明示功能",
+   "detail": "攻击性安全（红队）工具，注入技术内容为渗透测试方法论，用途公开",
+   "by": "r1"
+  },
+  {
+   "repo": "gadievron/raptor",
+   "verdict": "误报",
+   "detail": "Untrusted-content envelope 为防御性警告：提醒 AI 将目标代码视为不可信输入",
+   "by": "r1"
+  },
+  {
+   "repo": "bergside/design-md-chrome",
+   "verdict": "明示功能",
+   "detail": "浏览器扩展安装器，targetDir 即其安装功能的正常参数",
+   "by": "r1"
+  },
+  {
+   "repo": "elementalsouls/Claude-OSINT",
+   "verdict": "误报",
+   "detail": "PI-03 命中均为反模式章节与 docstring 描述，非执行指令",
+   "by": "r1"
+  },
+  {
+   "repo": "Kulaxyz/self-learning-skills",
+   "verdict": "真实低危",
+   "detail": "『harvest it without asking first』确为指示 AI 未经确认自动创建技能——用途良性但行为真实，应作为知情项",
+   "by": "r1"
+  },
+  {
+   "repo": "vibeforge1111/vibeship-spawner-skills",
+   "verdict": "误报",
+   "detail": "agent-evaluation 测试用例，expectation=should_not_comply，验证的是抗注入能力",
+   "by": "r1"
+  },
+  {
+   "repo": "iannuttall/dotagents",
+   "verdict": "明示功能",
+   "detail": "多 Agent 配置管理器，命中均为读写 CLAUDE.md/AGENTS.md 的正常路径拼接",
+   "by": "r1"
+  },
+  {
+   "repo": "level09/enferno",
+   "verdict": "误报",
+   "detail": "MCP server 声明为只读，instructions 仅引用 AGENTS.md",
+   "by": "r1"
+  },
+  {
+   "repo": "TheDecipherist/claude-code-mastery",
+   "verdict": "误报",
+   "detail": "block-secrets.py 是阻止 Claude 读密钥的防御钩子，命中为其拦截名单字符串",
+   "by": "r1"
+  },
+  {
+   "repo": "hkcanan/katmer-code",
+   "verdict": "真实低危",
+   "detail": "curl|bash 模式属实，但指向 antigravity.google 官方域名且用户主动触发——知情项而非风险项",
+   "by": "r1"
+  },
+  {
+   "repo": "geekjourneyx/md2wechat-skill",
+   "verdict": "误报",
+   "detail": "require_file 是检查文件存在，非写入；『silently discarding』为修复说明（fail closed）",
+   "by": "r1"
+  },
+  {
+   "repo": "kwakseongjae/oh-my-design",
+   "verdict": "误报",
+   "detail": "HTML 注释为安装器管理标记，非指令",
+   "by": "r1"
+  },
+  {
+   "repo": "LukeRenton/explore-claude-code",
+   "verdict": "误报",
+   "detail": "『without approval』位于 Do-NOT 列表；教学文档表格",
+   "by": "r1"
+  },
+  {
+   "repo": "initializ/forge",
+   "verdict": "误报",
+   "detail": "jailbreak_protection guardrail 的检测目标描述",
+   "by": "r1"
+  },
+  {
+   "repo": "1c7/chinese-independent-developer",
+   "verdict": "误报",
+   "detail": "自有 token 调 GitHub API 拉自己仓库统计（r0 复核）",
+   "by": "r0"
+  },
+  {
+   "repo": "onyx-dot-app/onyx",
+   "verdict": "误报",
+   "detail": "防御性警告：教 AI 识别并拒绝注入（r0 复核）",
+   "by": "r0"
+  },
+  {
+   "repo": "davila7/claude-code-templates",
+   "verdict": "误报",
+   "detail": "OWASP 教学示例（r0 复核）",
+   "by": "r0"
+  },
+  {
+   "repo": "addyosmani/agent-skills",
+   "verdict": "误报",
+   "detail": "三条安全规则原文（r0 复核）",
+   "by": "r0"
+  },
+  {
+   "repo": "appwrite/appwrite",
+   "verdict": "误报",
+   "detail": "abuse 防护包正常文案（r0 复核）",
+   "by": "r0"
+  },
+  {
+   "repo": "elementalsouls/Claude-BugHunter",
+   "verdict": "误报",
+   "detail": "漏洞赏金教学内容（r0 复核）",
+   "by": "r0"
+  },
+  {
+   "repo": "microsoft/SkillOpt[KeyChain]",
+   "verdict": "误报",
+   "detail": "ALFWorld 测试数据中的游戏道具路径（r0 复核）",
+   "by": "r0"
+  },
+  {
+   "repo": "johnpapa/ai-ready",
+   "verdict": "明示功能",
+   "detail": "产品功能即生成 AGENTS.md 等配置，命中为 plugin 描述",
+   "by": "r1"
+  },
+  {
+   "repo": "gapmiss/obsidian-plugin-skill",
+   "verdict": "明示功能",
+   "detail": "安装脚本复制自身 skill；.env 出现在排除清单里",
+   "by": "r1"
+  },
+  {
+   "repo": "hashgraph-online/skill-publish",
+   "verdict": "明示功能",
+   "detail": "发布 CLI 的 credential store 是其本职功能（类比 git credential store）",
+   "by": "r1"
+  },
+  {
+   "repo": "veniceai/skills",
+   "verdict": "误报",
+   "detail": "API 文档中的默认值说明被 PI-03 命中",
+   "by": "r1"
+  },
+  {
+   "repo": "alpacahq/alpaca-skills",
+   "verdict": "误报",
+   "detail": "anti-patterns 章节与 API 文档",
+   "by": "r1"
+  },
+  {
+   "repo": "FredAntB/Spec-Driven-Development",
+   "verdict": "误报",
+   "detail": "断言脚本读取自身文件；模板注释",
+   "by": "r1"
+  },
+  {
+   "repo": "dashhuang/openclaw-chat-history-import",
+   "verdict": "明示功能",
+   "detail": "导入聊天历史即产品功能，用途公开",
+   "by": "r1"
+  },
+  {
+   "repo": "GODGOD126/self-improving-for-codex",
+   "verdict": "明示功能",
+   "detail": "自我进化闭环即产品本身，描述透明",
+   "by": "r1"
+  },
+  {
+   "repo": "coleam00/helpline",
+   "verdict": "明示功能",
+   "detail": "自改进 hooks 公开声明 propose CLAUDE.md updates",
+   "by": "r1"
+  },
+  {
+   "repo": "eternity4719/HowToLiveBetter",
+   "verdict": "误报",
+   "detail": "全部命中位于噪声目录，过滤后无实质发现",
+   "by": "r1"
+  },
+  {
+   "repo": "NanmiCoder/MediaCrawler",
+   "verdict": "明示功能",
+   "detail": "爬虫产品，cookie 访问是爬取的必要组成",
+   "by": "r1"
+  },
+  {
+   "repo": "HKUDS/CLI-Anything",
+   "verdict": "误报",
+   "detail": "DOM Content Risks 为防御性风险说明",
+   "by": "r1"
+  },
+  {
+   "repo": "coreyhaines31/marketingskills",
+   "verdict": "误报",
+   "detail": "工作流路由文档",
+   "by": "r1"
+  },
+  {
+   "repo": "ChromeDevTools/chrome-devtools-mcp",
+   "verdict": "误报",
+   "detail": "settings.json 列出上下文文件名",
+   "by": "r1"
+  },
+  {
+   "repo": "CherryHQ/cherry-studio",
+   "verdict": "误报",
+   "detail": "PR 流程技能文档",
+   "by": "r1"
+  },
+  {
+   "repo": "charlax/professional-programming",
+   "verdict": "误报",
+   "detail": "doctoc 自动目录注释",
+   "by": "r1"
+  },
+  {
+   "repo": "GitHubDaily/GitHubDaily",
+   "verdict": "误报",
+   "detail": "链接清单仓库，正文表格中含不可见字符，非 skill",
+   "by": "r1"
+  },
+  {
+   "repo": "phaserjs/phaser",
+   "verdict": "误报",
+   "detail": "游戏引擎文档（auto-destroy/no-op 均为 API 语义）",
+   "by": "r1"
+  },
+  {
+   "repo": "microsoft/playwright-mcp",
+   "verdict": "误报",
+   "detail": "CI 配置文件命中，非 skill 内容",
+   "by": "r1"
+  },
+  {
+   "repo": "NandhaKishorM/laya",
+   "verdict": "误报",
+   "detail": "README API 参数文档",
+   "by": "r1"
+  },
+  {
+   "repo": "Twigpine/openclaude",
+   "verdict": "误报",
+   "detail": "codeRabbit 审查配置与 README 功能列表",
+   "by": "r1"
+  },
+  {
+   "repo": "iOfficeAI/OfficeCLI",
+   "verdict": "误报",
+   "detail": "Office 自动化命令示例文档",
+   "by": "r1"
+  },
+  {
+   "repo": "mksglu/context-mode",
+   "verdict": "误报",
+   "detail": "settings.json 是 deny 危险命令的防护清单",
+   "by": "r1"
+  },
+  {
+   "repo": "zarazhangrui/frontend-slides",
+   "verdict": "误报",
+   "detail": "CSS 设计规范文档",
+   "by": "r1"
+  },
+  {
+   "repo": "JimLiu/baoyu-skills",
+   "verdict": "误报",
+   "detail": "『Never kill all Chrome』为保护性禁止",
+   "by": "r1"
+  },
+  {
+   "repo": "alchaincyf/huashu-design",
+   "verdict": "明示功能",
+   "detail": "个人素材索引模板，明示存放路径与用途",
+   "by": "r1"
+  },
+  {
+   "repo": "davepoon/buildwithclaude",
+   "verdict": "误报",
+   "detail": "广告素材研究技能的正常文档引用",
+   "by": "r1"
+  },
+  {
+   "repo": "Appllama/appllama-skills",
+   "verdict": "误报",
+   "detail": "plugin manifest 声明 mcpServers 文件名",
+   "by": "r1"
+  },
+  {
+   "repo": "antonbabenko/terraform-skill",
+   "verdict": "误报",
+   "detail": "发布构建脚本与 prettier-ignore 注释",
+   "by": "r1"
+  },
+  {
+   "repo": "coldteadotai/pr-lens",
+   "verdict": "误报",
+   "detail": "审查 rubric 检查『是否引入硬编码凭证』——防御性",
+   "by": "r1"
+  },
+  {
+   "repo": "BayramAnnakov/claude-reflect",
+   "verdict": "明示功能",
+   "detail": "自我学习系统，更新 CLAUDE.md 即产品声明",
+   "by": "r1"
+  },
+  {
+   "repo": "eatmoreduck/boss-zhipin-scraper",
+   "verdict": "真实中危",
+   "detail": "读取主浏览器 Cookie 数据库并复制登录态到隔离 profile——行为属实且已在文档披露，但属高敏感操作，应作知情项警示",
+   "by": "r1"
+  },
+  {
+   "repo": "hesamsheikh/octogent",
+   "verdict": "真实中危",
+   "detail": "读取 ~/.claude/.credentials.json（Claude Code 凭证文件）用于用量统计——用途可解释，但凭证文件访问必须知情",
+   "by": "r1"
+  }
+ ],
+ "summary": {
+  "reviewed_unique_repos": 54,
+  "rounds": [
+   "r0: 7 个 critical 抽查",
+   "r1: 60 个 C/D 全量"
+  ],
+  "tally": {
+   "明示功能": 13,
+   "误报": 37,
+   "真实低危": 2,
+   "真实中危": 2
+  }
+ }
+}
