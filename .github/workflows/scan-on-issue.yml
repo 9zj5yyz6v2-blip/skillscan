@@ -1,0 +1,39 @@
+name: scan-on-issue
+
+# Issue-driven scanning bot:
+# 1. User opens a "scan request" issue with a repo URL
+# 2. This workflow shallow-clones the target repo
+# 3. Runs the STATIC scanner (target code is never executed)
+# 4. Posts the report as an issue comment
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: scan-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    if: contains(github.event.issue.title, '[Scan]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Scan target repo and comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUM: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+        run: python skillscan/scan_issue.py
