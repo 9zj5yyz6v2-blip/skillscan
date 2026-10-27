@@ -1,0 +1,41 @@
+name: 🛡️ 免费扫描请求 / Free scan request
+description: 留下你的 AI 技能仓库链接，我们用静态扫描器扫一遍并回帖报告（代码只读、永不执行）
+title: "[Scan] <你的仓库名 / your-repo-name>"
+labels: ["scan-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **SkillScan** 是一个纯静态、零依赖的 AI 技能（Agent Skills / MCP Server）风险扫描器。
+        提交下面的表单，GitHub Actions 会自动 clone 你的仓库做静态扫描，并把结果以评论回复在 issue 里。
+
+        - 只读扫描：**不执行任何被扫描的代码，不联网发送任何内容**
+        - 评级为机器初筛：第 003 期研究中 62.5% 的 critical 命中是误报，critical 结果请结合人工复核
+        - 完全免费、无需安装任何东西
+
+  - type: input
+    id: repo_url
+    attributes:
+      label: 仓库链接 / Repository URL
+      description: 要扫描的公开 GitHub 仓库，例如 https://github.com/anthropics/skills
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: true
+
+  - type: dropdown
+    id: repo_type
+    attributes:
+      label: 这是什么？ / What is it?
+      options:
+        - Agent Skill / 技能包（含 SKILL.md）
+        - MCP Server
+        - 其他 AI agent 相关仓库
+        - 普通仓库（好奇也想扫）
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 备注（可选） / Notes (optional)
+      description: 有什么想让我们特别注意的地方吗？
