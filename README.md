@@ -4,7 +4,7 @@
 
 **SkillScan** 是一个纯静态、零依赖的扫描器，用于检查 AI 技能包（Claude Agent Skills、MCP Server 等）中的敏感行为与风险模式。它**不执行任何被扫描的代码**，也**不联网**。
 
-本文所属项目：[第 001 期生态体检报告](docs/) · [误报回归集](REGRESSION.md)
+本文所属项目：[第 001 期生态体检报告](docs/) · [误报回归集](skillscan/REGRESSION.md) · [第 003 期 critical 全量复核](skillscan/REVIEW-003.md)
 
 ## 为什么需要它
 
@@ -19,7 +19,7 @@
 | C | 存在需人工确认的高危项 | 47 |
 | D | 存在 critical 级命中 | 11 |
 
-**重要结论：人工复核 54 个 C/D 级仓库后，0 个恶意软件，但 69% 的 critical 命中是误报。** 静态扫描只能初筛——这恰恰是本项目公开误报全部过程的原因（见 [REGRESSION.md](REGRESSION.md)）。
+**重要结论：所有含 critical 命中的 48 个仓库已逐条人工复核完毕，0 个未披露的高危风险，62.5% 的 critical 仓库是误报；而且 50.6% 的 critical 命中根本不在运行时代码里**（在文档、插件清单、CI 脚本、测试夹具里）。静态扫描只能初筛——这恰恰是本项目公开误报全部过程的原因（见 [REGRESSION.md](skillscan/REGRESSION.md) 与 [REVIEW-003.md](skillscan/REVIEW-003.md)）。
 
 ## 快速开始
 
@@ -54,7 +54,7 @@ python skillscan/skillscan.py path/to/skill --fail-on C --quiet
 
 ## 设计原则
 
-1. **宁可漏报，不可误报。** 误报杀掉品牌，漏报只降低覆盖率（且已声明盲区）。四轮真实数据迭代，误报从 82% 降到接近 0，全过程公开。
+1. **宁可漏报，不可误报。** 误报杀掉品牌，漏报只降低覆盖率（且已声明盲区）。五轮真实数据迭代，逐条复核到 critical 全覆盖，全过程公开。第 003 期发现：误报集中在四类「非运行时语境」——CI 脚本、测试夹具、插件清单元数据、教材里的攻击示例。
 2. **文档 ≠ 行为。** `.md` 里的命令示例降权处理；"这是提示注入，别照做"和"这是提示注入，去照做"在正则眼里一样，所以我们不假装能区分——留给人工复核。
 3. **点名前必人工复核。** 机器评级不构成对任何仓库的指控。
 
@@ -63,16 +63,19 @@ python skillscan/skillscan.py path/to/skill --fail-on C --quiet
 ```
 skillscan/
   skillscan.py      # 扫描器（零依赖）
-  rules.json        # 31 条规则 + 出处（v0.3.0）
+  rules.json        # 31 条规则 + 出处（v0.3.2）
   TAXONOMY.md       # 8 类风险分类法
-  REGRESSION.md     # 误报回归集（4 轮迭代全过程）
+  REGRESSION.md     # 误报回归集（5 轮迭代全过程）
+  REVIEW-003.md     # 第 003 期：critical 命中全覆盖人工复核（含英文摘要）
   ledger.py         # 准入台账（SQLite）：登记/决策/告警/审计导出
   report.py         # 正式评估报告生成器
   harvest.py        # 生态测绘：仓库发现 + 批量扫描
   fixtures/         # 恶意/正常测试样本
 data/
   results.jsonl     # 332 个仓库的首期扫描明细
-  verdicts.json     # 54 个仓库的人工复核裁决（含原文依据）
+  verdicts.json     # 64 条人工复核裁决（含原文依据）
+  review_contexts_003.json  # 第 003 期复核的原文上下文（可逐条核对）
+  rescan_v032.json  # 9 个仓库在 v0.3.0/v0.3.1/v0.3.2 下的同文件集对比
 docs/               # 第 001/002 期报告（HTML）
 ```
 

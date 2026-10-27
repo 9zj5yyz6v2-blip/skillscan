@@ -1,0 +1,905 @@
+[
+ {
+  "repo": "dbwls99706/ros2-engineering-skills",
+  "v030": {
+   "grade": "C",
+   "score": 47,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 1,
+    "low": 0
+   }
+  },
+  "v031": {
+   "grade": "A",
+   "score": 10,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 1,
+    "low": 1
+   }
+  },
+  "v032": {
+   "grade": "A",
+   "score": 6,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 1,
+    "low": 1
+   }
+  },
+  "findings": [
+   {
+    "rule": "DE-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "CHANGELOG.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "low",
+    "declared": "critical",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\test.yml"
+   }
+  ]
+ },
+ {
+  "repo": "solanabr/ai-kit",
+  "v030": {
+   "grade": "C",
+   "score": 53,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 26,
+    "low": 8
+   }
+  },
+  "v031": {
+   "grade": "C",
+   "score": 53,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 27,
+    "low": 8
+   }
+  },
+  "v032": {
+   "grade": "B",
+   "score": 37,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 27,
+    "low": 8
+   }
+  },
+  "findings": [
+   {
+    "rule": "CA-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "CA-03",
+    "severity": "low",
+    "declared": "high",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "CA-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "CA-03",
+    "severity": "low",
+    "declared": "high",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "CA-04",
+    "severity": "low",
+    "declared": "medium",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "EX-01",
+    "severity": "low",
+    "declared": "high",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "DE-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "DE-02",
+    "severity": "low",
+    "declared": "high",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "PI-03",
+    "severity": "low",
+    "declared": "high",
+    "context": "benign-hide",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\CHANGELOG.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\anchor-engineer.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\defi-engineer.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\devops-engineer.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\devops-engineer.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\game-architect.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\mobile-engineer.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\pinocchio-engineer.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\rust-backend-engineer.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\solana-architect.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\solana-frontend-engineer.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\agents\\solana-guide.md"
+   },
+   {
+    "rule": "DE-04",
+    "severity": "low",
+    "declared": "medium",
+    "context": "doc-context",
+    "file": ".claude\\skills\\SKILL.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\skills\\SKILL.md"
+   },
+   {
+    "rule": "CA-03",
+    "severity": "low",
+    "declared": "high",
+    "context": "doc-context",
+    "file": ".claude\\skills\\skill-packs\\SKILL.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\skills\\skill-packs\\SKILL.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".claude\\skills\\token-extensions\\SKILL.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "manifest-meta",
+    "file": ".claude-plugin\\marketplace.json"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "docs\\README.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "plugin\\skills\\solana-ai-kit\\SKILL.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "plugin\\skills\\solana-ai-kit\\SKILL.md"
+   }
+  ]
+ },
+ {
+  "repo": "pillar-labs/sail-skill",
+  "v030": {
+   "grade": "C",
+   "score": 54,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 6,
+    "low": 0
+   }
+  },
+  "v031": {
+   "grade": "C",
+   "score": 54,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 6,
+    "low": 0
+   }
+  },
+  "v032": {
+   "grade": "C",
+   "score": 46,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 6,
+    "low": 0
+   }
+  },
+  "findings": [
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "sail\\skills\\sail\\SKILL.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "sail\\skills\\sail\\references\\definitions.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "sail\\skills\\sail\\references\\framework.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "sail\\skills\\sail\\references\\framework.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "sail\\skills\\sail\\references\\phase-3-posture.md"
+   },
+   {
+    "rule": "PI-01",
+    "severity": "critical",
+    "declared": "critical",
+    "context": "",
+    "file": "sail\\skills\\sail\\references\\phase-5-runtime.md"
+   }
+  ]
+ },
+ {
+  "repo": "Panniantong/Agent-Reach",
+  "v030": {
+   "grade": "B",
+   "score": 25,
+   "counts": {
+    "critical": 3,
+    "high": 1,
+    "medium": 2,
+    "low": 0
+   }
+  },
+  "v031": {
+   "grade": "B",
+   "score": 25,
+   "counts": {
+    "critical": 3,
+    "high": 1,
+    "medium": 2,
+    "low": 0
+   }
+  },
+  "v032": {
+   "grade": "C",
+   "score": 58,
+   "counts": {
+    "critical": 3,
+    "high": 1,
+    "medium": 2,
+    "low": 0
+   }
+  },
+  "findings": [
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "CHANGELOG.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "CONTRIBUTING.md"
+   },
+   {
+    "rule": "PI-02",
+    "severity": "high",
+    "declared": "high",
+    "context": "",
+    "file": "CONTRIBUTING.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "critical",
+    "declared": "critical",
+    "context": "",
+    "file": "agent_reach\\backends\\opencli.py"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "critical",
+    "declared": "critical",
+    "context": "",
+    "file": "agent_reach\\channels\\bilibili.py"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "critical",
+    "declared": "critical",
+    "context": "",
+    "file": "agent_reach\\channels\\_opencli_site.py"
+   }
+  ]
+ },
+ {
+  "repo": "vercel-labs/skills",
+  "v030": {
+   "grade": "A",
+   "score": 7,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 2,
+    "low": 0
+   }
+  },
+  "v031": {
+   "grade": "A",
+   "score": 7,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 2,
+    "low": 1
+   }
+  },
+  "v032": {
+   "grade": "A",
+   "score": 3,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 2,
+    "low": 1
+   }
+  },
+  "findings": [
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "AGENTS.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "low",
+    "declared": "critical",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\agents.yml"
+   }
+  ]
+ },
+ {
+  "repo": "BigPizzaV3/CodexPlusPlus",
+  "v030": {
+   "grade": "C",
+   "score": 68,
+   "counts": {
+    "critical": 1,
+    "high": 1,
+    "medium": 3,
+    "low": 1
+   }
+  },
+  "v031": {
+   "grade": "B",
+   "score": 16,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 3,
+    "low": 3
+   }
+  },
+  "v032": {
+   "grade": "A",
+   "score": 12,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 3,
+    "low": 3
+   }
+  },
+  "findings": [
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.preview.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README_EN.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "low",
+    "declared": "critical",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\release-assets.yml"
+   },
+   {
+    "rule": "CA-03",
+    "severity": "low",
+    "declared": "high",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\release-assets.yml"
+   },
+   {
+    "rule": "EX-04",
+    "severity": "low",
+    "declared": "medium",
+    "context": "doc-context",
+    "file": "tools\\conversation-canvas\\readme.md"
+   }
+  ]
+ },
+ {
+  "repo": "teng-lin/notebooklm-py",
+  "v030": {
+   "grade": "B",
+   "score": 27,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 9,
+    "low": 3
+   }
+  },
+  "v031": {
+   "grade": "B",
+   "score": 27,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 9,
+    "low": 4
+   }
+  },
+  "v032": {
+   "grade": "A",
+   "score": 15,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 9,
+    "low": 4
+   }
+  },
+  "findings": [
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "SKILL.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "low",
+    "declared": "critical",
+    "context": "comment",
+    "file": ".github\\codeql-config.yml"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": ".github\\ISSUE_TEMPLATE\\bug_report.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "low",
+    "declared": "critical",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\auth-patch-audit.yml"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "deploy\\README.md"
+   },
+   {
+    "rule": "CA-03",
+    "severity": "low",
+    "declared": "high",
+    "context": "doc-context",
+    "file": "deploy\\README.md"
+   },
+   {
+    "rule": "EX-04",
+    "severity": "low",
+    "declared": "medium",
+    "context": "doc-context",
+    "file": "deploy\\README.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "desktop-extension\\README.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "docs\\adr\\README.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "docs\\android\\README.md"
+   }
+  ]
+ },
+ {
+  "repo": "zenbu-labs/terminal-browser",
+  "v030": {
+   "grade": "D",
+   "score": 86,
+   "counts": {
+    "critical": 1,
+    "high": 1,
+    "medium": 6,
+    "low": 1
+   }
+  },
+  "v031": {
+   "grade": "C",
+   "score": 45,
+   "counts": {
+    "critical": 0,
+    "high": 1,
+    "medium": 5,
+    "low": 3
+   }
+  },
+  "v032": {
+   "grade": "B",
+   "score": 37,
+   "counts": {
+    "critical": 0,
+    "high": 1,
+    "medium": 5,
+    "low": 3
+   }
+  },
+  "findings": [
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "CLAUDE.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "PI-03",
+    "severity": "high",
+    "declared": "high",
+    "context": "",
+    "file": ".claude\\skills\\verify\\SKILL.md"
+   },
+   {
+    "rule": "CA-02",
+    "severity": "low",
+    "declared": "critical",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\pixel-electron-build.yml"
+   },
+   {
+    "rule": "DE-04",
+    "severity": "low",
+    "declared": "medium",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\pixel-release.yml"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "low",
+    "declared": "critical",
+    "context": "comment",
+    "file": ".github\\workflows\\release.yml"
+   },
+   {
+    "rule": "SC-04",
+    "severity": "medium",
+    "declared": "medium",
+    "context": "",
+    "file": "browser\\package.json"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "claude-code-plugin\\README.md"
+   },
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "claude-code-plugin\\README.md"
+   }
+  ]
+ },
+ {
+  "repo": "romainsimon/paperasse",
+  "v030": {
+   "grade": "C",
+   "score": 50,
+   "counts": {
+    "critical": 1,
+    "high": 0,
+    "medium": 1,
+    "low": 1
+   }
+  },
+  "v031": {
+   "grade": "A",
+   "score": 13,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 1,
+    "low": 2
+   }
+  },
+  "v032": {
+   "grade": "A",
+   "score": 9,
+   "counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 1,
+    "low": 2
+   }
+  },
+  "findings": [
+   {
+    "rule": "PS-01",
+    "severity": "medium",
+    "declared": "critical",
+    "context": "doc-context",
+    "file": "README.md"
+   },
+   {
+    "rule": "SC-01",
+    "severity": "low",
+    "declared": "critical",
+    "context": "ci-workflow",
+    "file": ".github\\workflows\\evals-smoke.yml"
+   },
+   {
+    "rule": "CA-03",
+    "severity": "low",
+    "declared": "high",
+    "context": "doc-context",
+    "file": "integrations\\README.md"
+   }
+  ]
+ }
+]

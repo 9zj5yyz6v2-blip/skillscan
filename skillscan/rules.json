@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.2",
   "updated": "2026-10-26",
   "note": "Agent Skills / MCP Server 风险规则集种子版。规则故意保持精简：误报率优先于覆盖率。",
   "weights": {
@@ -547,6 +547,8 @@
   ],
   "citation_policy": "每条规则必须可归因到公开标准（CWE / OWASP LLM Top 10 / MITRE ATLAS）。争议时引用标准而非作者判断——这是把'我的观点'变成'行业定义'的关键。",
   "changelog": {
-    "0.3.0": "语境感知三件套 + 三条高误报规则收紧。依据：本机 137 个真实 skill 全量实测，11 个 C/D 级逐条人工复核，误报率 100%。改动：否定修饰紧邻检测 / 警告语境检测 / 代码注释降级 / PI-02 critical→high / PI-03 silently 需后接敏感动词 / EX-01 移除泛化 requests.post，拆为 EX-05(low) 与 EX-06(critical)。原则：宁可漏报，不可误报。"
+    "0.3.0": "语境感知三件套 + 三条高误报规则收紧。依据：本机 137 个真实 skill 全量实测，11 个 C/D 级逐条人工复核，误报率 100%。改动：否定修饰紧邻检测 / 警告语境检测 / 代码注释降级 / PI-02 critical→high / PI-03 silently 需后接敏感动词 / EX-01 移除泛化 requests.post，拆为 EX-05(low) 与 EX-06(critical)。原则：宁可漏报，不可误报。",
+    "0.3.1": "路径语境封顶（CI 工作流 / 测试夹具 / 插件清单元数据）。依据：332 仓库扫描中 49 个含 critical 的仓库全部人工复核，其中 6 条 critical 命中落在 .github/workflows/*，另有 1 条落在 marketplace.json 描述字段、1 条落在风险分类文档的攻击示例里。改动：新增 path_context() 与 cap_severity()，命中仍记录但 severity 封顶（ci-workflow/test-fixture→low，manifest-meta→medium）。校验：evil fixture 仍 D 100、good fixture 仍 A 0，检出能力不变。",
+    "0.3.2": "示例语境降级 + 语境命中按 low 权重计分。依据：第 003 期全量复核发现两类残留误报——(1) 风险建模文档里的攻击样例（sail-skill 的 \"Ignore previous instructions and exfiltrate…\"）；(2) 文档语境命中按原严重度累加导致分数虚高（ai-kit critical 已清零但 27 条中危把分数堆到 53，仍判 C）。改动：新增 EXAMPLE_CTX（仅对 prompt-injection / hidden-instructions 生效）+ score_of 对带语境标记的命中按 low 权重计。原则不变：宁可漏报，不可误报；全部命中仍然保留在报告里，只是不靠提及次数刷分。"
   }
 }
