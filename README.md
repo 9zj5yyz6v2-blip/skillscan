@@ -36,6 +36,14 @@ python skillscan/skillscan.py path/to/skill --fail-on C --quiet
 
 要求：Python 3.8+，无任何第三方依赖。
 
+## 🆓 免安装试用（推荐）
+
+不想装任何东西？**[开一个 Scan issue](https://github.com/9zj5yyz6v2-blip/skillscan/issues/new?template=scan-request.yml) 填上仓库链接**，GitHub Actions 会自动扫描并以评论回复报告：
+
+- 只读扫描：被扫描的代码**永不执行**，扫描器**不联网**
+- 报告含评级、critical/high 命中明细、以及"怎么读这份报告"的诚实说明
+- 完全免费；欢迎提交你自己的技能包，也欢迎提交任何你怀疑过的仓库
+
 ## 8 类风险 · 31 条规则
 
 每条规则均标注公开标准出处（CWE / OWASP LLM Top 10 (2025) / MITRE ATLAS）——"说你有问题"不是我们说了算，是标准说了算。
@@ -69,6 +77,7 @@ skillscan/
   REVIEW-003.md     # 第 003 期：critical 命中全覆盖人工复核（含英文摘要）
   ledger.py         # 准入台账（SQLite）：登记/决策/告警/审计导出
   report.py         # 正式评估报告生成器
+  scan_issue.py     # issue 驱动扫描机器人（配合 .github/workflows/scan-on-issue.yml）
   harvest.py        # 生态测绘：仓库发现 + 批量扫描
   fixtures/         # 恶意/正常测试样本
 data/
