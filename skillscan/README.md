@@ -56,3 +56,11 @@ python skillscan.py fixtures/good-skill --quiet   # 应为 A 0
 ```
 
 改完 `rules.json` 后务必跑这两条，确认没有把恶意样本漏掉、也没有给正常样本误报。
+
+## 实测基线（v0.3.2）
+
+432 个 Claude Agent Skill 仓库全量扫描：A 249 / B 138 / C 34 / D 11。
+与 v0.3.0 基线可比的 317 仓中，232 个降分（误报修正）、28 个升分（低估修正，平均 +23 分）、
+13 个仓库从"看似安全"（<40）暴露为真风险（≥60）。
+人工复核第 003 期（48 仓全量）：误报 62.5%，真高危 0。数据与推导见
+[`BASELINE-v032.md`](skillscan/BASELINE-v032.md) 与 [`REVIEW-003.md`](skillscan/REVIEW-003.md)。
